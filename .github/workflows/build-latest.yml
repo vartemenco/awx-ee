@@ -48,13 +48,12 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v3
-        env:
-          IMAGE: ghcr.io/${{ github.repository }}
-          TAG: ${{ steps.vars.outputs.sha_short }}
         with:
           context: .
           push: true
-          tags: $IMAGE:latest, $IMAGE:$TAG
+          tags: |
+            ghcr.io/${{ github.repository }}:latest 
+            ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.sha_short }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
