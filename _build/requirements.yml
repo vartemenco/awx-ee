@@ -4,3 +4,9 @@ collections:
   - name: amazon.aws
   - name: kubernetes.core
   - name: ansible.posix
+  - name: community.docker
+  - name: community.general
+  - name: community.crypto
+  - name: onepassword.connect
+  - name: community.mysql
+  - name: community.postgresql
