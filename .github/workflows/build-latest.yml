@@ -5,9 +5,6 @@ on:
     # build and push anytime commits are merged to devel
     branches:
       - devel
-  schedule:
-    # build every 12 hours
-    - cron: '0 */12 * * *'
 
 jobs:
   build_and_push_latest:
@@ -25,13 +22,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
 
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+
       - name: Build image
         env:
           DOCKER_BUILDKIT: 1
+          IMAGE: ghcr.io/${{ github.repository }}
+          TAG: ${{ github.event.inputs.tag }}
         run: |
-          tox -e docker -- --tag=quay.io/ansible/awx-ee:latest
-
-      - name: Push images
-        run: |
-         echo "${{ secrets.QUAY_TOKEN }}" | docker login quay.io -u ${{ secrets.QUAY_USERNAME }} --password-stdin
-         docker push quay.io/ansible/awx-ee:latest
+          TAG=$(echo $TAG | tr '[A-Z]' '[a-z]')
+          tox -e docker -- --tag=$IMAGE:$TAG 
+          docker tag $IMAGE:$TAG $IMAGE:latest
+          docker push $IMAGE:latest 
