@@ -42,4 +42,4 @@ jobs:
           TAG=$(echo $TAG | tr '[A-Z]' '[a-z]')
           tox -e docker -- --tag=$IMAGE:$TAG 
           docker tag $IMAGE:$TAG $IMAGE:latest
-          docker push $IMAGE:latest 
+          docker push $IMAGE:latest --all-tags
