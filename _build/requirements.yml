@@ -10,3 +10,4 @@ collections:
   - name: onepassword.connect
   - name: community.mysql
   - name: community.postgresql
+  - name: rytis.utils
