@@ -26,6 +26,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - uses: docker/setup-buildx-action@v2
+
+      - uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
