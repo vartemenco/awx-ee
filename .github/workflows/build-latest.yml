@@ -43,8 +43,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: "${GITHUB_WORKSPACE}"
-          file: context/Dockerfile
+          context: .
+          file: ./context/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.repository }}:latest 
